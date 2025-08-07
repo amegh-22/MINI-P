@@ -18,7 +18,7 @@ class DNAIApp extends StatelessWidget {
       home: SplashScreen(),
       // Optionally define routes
       routes: {
-        //'/home': (context) => const HomePage(),
+        '/home': (context) => const HomePage(),
         '/splash': (context) => SplashScreen(),
       },
     );

@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:my_app/Home.dart';
 
 void main() {
   runApp(const DNAIApp());
@@ -13,104 +15,105 @@ class DNAIApp extends StatelessWidget {
     return MaterialApp(
       title: 'DN-AI',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-@override
-void initState() {
-  super.initState();
-  // Removed navigation so the splash screen stays
-}
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-// class _SplashScreenState extends State<SplashScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Wait for 4 seconds then navigate
-//     Timer(const Duration(seconds: 4), () {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => NextPage()),
-//       );
-//     });
-//   }
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // Initialize animation
+  //   _controller =
+  //       AnimationController(vsync: this, duration: const Duration(seconds: 3));
+  //   _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+
+  //   // Start animation
+  //   _controller.forward();
+    
+  // }
+   @override
+  void initState() {
+    super.initState();
+
+    // Start fade-in animation
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _controller.forward();
+
+    // Navigate after 4 seconds
+    Timer(const Duration(seconds: 4), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Clean up
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 224, 234, 233), // Background color
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 2, 187, 211),
-        elevation: 0,
-        title: const Text(
-          'DN-AI',
-          style: TextStyle(
-            color: Color.fromARGB(255, 235, 238, 240), // Title color
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
+      backgroundColor: const Color.fromARGB(255, 224, 234, 233),
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _animation,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              Image.asset(
+                'assets/DNA.png',
+                height: 260,
+              ),
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 145),
+                  child: RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'DN-',
+                          style: TextStyle(color: Color(0xFF40B4C4)),
+                        ),
+                        TextSpan(
+                          text: 'AI',
+                          style: TextStyle(color: Color.fromARGB(255, 2, 49, 102)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-         ),
-        // centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/DNA.png', // Make sure this is in pubspec.yaml
-              height: 200,
-            ),
-            const SizedBox(height: 20),
-            RichText(
-  text: TextSpan(
-    style: TextStyle(
-      fontSize: 36,
-      fontWeight: FontWeight.bold,
-    ),
-    children: [
-      TextSpan(
-        text: 'DN-A',
-        style: TextStyle(color: Color(0xFF40B4C4)), // match your logo's blue
-      ),
-      TextSpan(
-        text: 'I',
-        style: TextStyle(color: Color(0xFF002D62)), // dark blue
-      ),
-    ],
-  ),
-),
-
-            // const Text(
-            //   'DN-AI',
-            //   style: TextStyle(
-            //     fontSize: 30,
-            //     color: Colors.cyan,
-            //     fontWeight: FontWeight.bold,
-            //     letterSpacing: 2,
-            //   ),
-            // ),
-          ],
         ),
       ),
-    );
-  }
-}
-
-class NextPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Next Page")),
-      body: const Center(child: Text("Welcome to DN-AI!")),
     );
   }
 }

@@ -26,23 +26,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-  Widget buildDNAImage({bool isMirrored = false}) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..rotateZ(_controller.value * 2 * pi) // Full rotation
-            ..scale(isMirrored ? -1.0 : 1.0, 1.0), // Mirror if needed
-          child: Image.asset(
-            'assets/DNA.png',
-            height: 200,
-          ),
-        );
-      },
-    );
-  }
+ 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +49,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Main Rotating DNA
-            buildDNAImage(),
-            const SizedBox(height: 20),
-            // Optional: Mirrored Rotation
-            buildDNAImage(isMirrored: true),
-            const SizedBox(height: 40),
-            const Text(
-              "Welcome to DN-AI!\nA place where you can understand yourself.",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
         ),
       ),
     );
