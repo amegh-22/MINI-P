@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -25,9 +25,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _controller.dispose();
     super.dispose();
   }
-
- 
-  
 
   @override
   Widget build(BuildContext context) {
